@@ -1,4 +1,4 @@
-import { Bind, Controller, Get, Param } from '@nestjs/common';
+import { Bind, Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
 
 const GATOS = [
     {
@@ -30,9 +30,15 @@ export class CatsController {
     }
 
     @Get(':id')
-    @Bind(Param())
-    findOne(params) {
-        return `Retorna os dados do gato ${params.id}`;
+    @Bind(Param(), Res())
+    findOne(params, res) {
+        const gatoEncontrado = GATOS.find(gato => gato.id == params.id);
+        if(gatoEncontrado) {
+            res.status(HttpStatus.OK).json(gatoEncontrado);
+        } else {
+            res.status(HttpStatus.NOT_FOUND).send();
+        }
+        
     }
 
 }
