@@ -1,4 +1,4 @@
-import { Bind, Controller, Delete, Get, HttpStatus, Param, Res } from '@nestjs/common';
+import { Bind, Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 
 const GATOS = [
     {
@@ -51,6 +51,12 @@ export class CatsController {
         } else {
             res.status(HttpStatus.NOT_FOUND).send();
         }
+    }
+
+    @Post()
+    @Bind(Body())
+    create(cat) {
+        return `Cadastrando um gato ${JSON.stringify(cat)}`
     }
 
 }
